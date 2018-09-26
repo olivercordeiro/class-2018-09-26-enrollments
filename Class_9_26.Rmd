@@ -1,18 +1,29 @@
 ---
-title: "Class_9_26"
+title: "Enrollments"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(knitr)
 ```
 
-```{r}
+```{r, echo=FALSE}
 x <- read_rds("enrollment.rds")
 
 x %>% 
-  select(course_name, u_grad) %>% 
-  arrange(desc(u_grad))
+  select(course_name, course_department, course_title, u_grad) %>%
+  filter(!is.na(course_name)) %>% 
+  arrange(desc(u_grad)) %>%
+  head(10) %>% 
+  kable(caption = "Enrollment by Course")
+
+x %>% 
+  mutate(c_length = nchar(course_name)) %>% 
+  select(course_name, c_length) %>% 
+  arrange(c_length) %>% 
+  head(7) %>% 
+  kable()
 ```
 
